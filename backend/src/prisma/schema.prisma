@@ -19,5 +19,7 @@ model User {
 model Tenant {
   id    Int    @id @default(autoincrement())
   name  String
+  slug  String @unique
+  domain String
   users User[]
 }
