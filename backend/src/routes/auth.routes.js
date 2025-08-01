@@ -45,7 +45,8 @@ router.post('/signup', async (req, res) => {
     const hashed = await bcrypt.hash(password, 10);
 
     const slug = slugify(company);
-    const domain = `${slug}.myapp.com`;
+    const baseDomain = process.env.APP_BASE_DOMAIN;
+    const domain = `${slug}.${baseDomain}`;
 
     let tenant = await prisma.tenant.findUnique({ where: { slug } });
     if (!tenant) {
