@@ -1,0 +1,5 @@
+{
+  "name": "saas-boilerplate",
+  "private": true,
+  "workspaces": ["frontend", "backend"]
+}
