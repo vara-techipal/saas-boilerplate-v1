@@ -27,19 +27,47 @@ router.post('/login', async (req, res) => {
   res.json({ token });
 });
 
+function slugify(str) {
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+}
+
 router.post('/signup', async (req, res) => {
-  const { email, password, name } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password required' });
+  const { email, password, name, company } = req.body;
+  if (!email || !password || !company) {
+    return res.status(400).json({ error: 'Email, password and company required' });
   }
 
   try {
     const hashed = await bcrypt.hash(password, 10);
+
+    const slug = slugify(company);
+    const domain = `${slug}.myapp.com`;
+
+    let tenant = await prisma.tenant.findUnique({ where: { slug } });
+    if (!tenant) {
+      tenant = await prisma.tenant.create({
+        data: { name: company, slug, domain }
+      });
+    }
+
     const user = await prisma.user.create({
-      data: { email, password: hashed, name }
+      data: {
+        email,
+        password: hashed,
+        name,
+        tenant: { connect: { id: tenant.id } }
+      }
     });
 
-    res.json({ id: user.id });
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+      expiresIn: '1h'
+    });
+
+    res.json({ token });
   } catch (err) {
     if (err.code === 'P2002') {
       return res.status(400).json({ error: 'Email already exists' });
