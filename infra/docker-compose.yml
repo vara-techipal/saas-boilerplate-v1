@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  database:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: example
+      POSTGRES_DB: example
+    ports:
+      - "5432:5432"
+  backend:
+    build: ../backend
+    environment:
+      - DATABASE_URL=postgresql://example:example@database:5432/example
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+  frontend:
+    build: ../frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
