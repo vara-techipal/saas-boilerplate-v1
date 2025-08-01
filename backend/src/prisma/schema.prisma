@@ -12,4 +12,12 @@ model User {
   email String @unique
   password String
   name  String?
+  tenantId Int?
+  tenant   Tenant? @relation(fields: [tenantId], references: [id])
+}
+
+model Tenant {
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[]
 }
