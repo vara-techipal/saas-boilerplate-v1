@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 app.use(setTenant);
 
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/tenant', tenantRoutes);
 
 export default app;
