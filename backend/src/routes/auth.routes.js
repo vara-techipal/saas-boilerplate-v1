@@ -7,7 +7,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/login:
+ * /api/auth/login:
  *   post:
  *     summary: Log in a user
  *     tags: ['Auth']
@@ -70,7 +70,7 @@ function slugify(str) {
 
 /**
  * @swagger
- * /api/signup:
+ * /api/auth/signup:
  *   post:
  *     summary: Create a new user
  *     tags: ['Auth']
