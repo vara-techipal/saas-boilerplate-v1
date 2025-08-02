@@ -20,10 +20,19 @@ const router = Router();
  *             required:
  *               - email
  *               - password
+ *               - company
+ *               - firstName
+ *               - lastName
  *             properties:
  *               email:
  *                 type: string
  *               password:
+ *                 type: string
+ *               company:
+ *                 type: string
+ *               firstName:
+ *                 type: string
+ *               lastName:
  *                 type: string
  *     responses:
  *       200:
@@ -83,10 +92,19 @@ function slugify(str) {
  *             required:
  *               - email
  *               - password
+ *               - company
+ *               - firstName
+ *               - lastName
  *             properties:
  *               email:
  *                 type: string
  *               password:
+ *                 type: string
+ *               company:
+ *                 type: string
+ *               firstName:
+ *                 type: string
+ *               lastName:
  *                 type: string
  *     responses:
  *       201:
@@ -95,9 +113,11 @@ function slugify(str) {
  *         description: Invalid input
  */
 router.post('/signup', async (req, res) => {
-  const { email, password, name, company } = req.body;
-  if (!email || !password || !company) {
-    return res.status(400).json({ error: 'Email, password and company required' });
+  const { email, password, firstName, lastName, company } = req.body;
+  if (!email || !password || !company || !firstName || !lastName) {
+    return res
+      .status(400)
+      .json({ error: 'Email, password, company, first name and last name required' });
   }
 
   try {
@@ -118,7 +138,8 @@ router.post('/signup', async (req, res) => {
       data: {
         email,
         password: hashed,
-        name,
+        firstName,
+        lastName,
         tenant: { connect: { id: tenant.id } }
       }
     });
