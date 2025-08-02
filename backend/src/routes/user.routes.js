@@ -4,6 +4,20 @@ import prisma from '../prisma/client.js';
 
 const router = Router();
 
+/**
+ * @swagger
+ * /api/me:
+ *   get:
+ *     summary: Get current authenticated user
+ *     tags: [User]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Current user data
+ *       401:
+ *         description: Unauthorized
+ */
 router.get('/me', requireAuth, async (req, res) => {
   try {
     const userWithTenant = await prisma.user.findUnique({
