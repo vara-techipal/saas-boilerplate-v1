@@ -9,7 +9,7 @@ const router = Router();
  * /api/me:
  *   get:
  *     summary: Get current authenticated user
- *     tags: [User]
+ *     tags: ['User']
  *     security:
  *       - bearerAuth: []
  *     responses:
