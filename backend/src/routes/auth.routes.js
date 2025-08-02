@@ -82,6 +82,7 @@ function slugify(str) {
  * /api/auth/signup:
  *   post:
  *     summary: Create a new user
+ *     description: Requires email, password, company, first name, and last name
  *     tags: ['Auth']
  *     requestBody:
  *       required: true
@@ -98,14 +99,19 @@ function slugify(str) {
  *             properties:
  *               email:
  *                 type: string
+ *                 description: User's email address
  *               password:
  *                 type: string
+ *                 description: User's password
  *               company:
  *                 type: string
+ *                 description: Company name
  *               firstName:
  *                 type: string
+ *                 description: User's first name
  *               lastName:
  *                 type: string
+ *                 description: User's last name
  *     responses:
  *       201:
  *         description: User created
