@@ -10,7 +10,7 @@ const router = Router();
  * /api/login:
  *   post:
  *     summary: Log in a user
- *     tags: [Auth]
+ *     tags: ['Auth']
  *     requestBody:
  *       required: true
  *       content:
@@ -73,7 +73,7 @@ function slugify(str) {
  * /api/signup:
  *   post:
  *     summary: Create a new user
- *     tags: [Auth]
+ *     tags: ['Auth']
  *     requestBody:
  *       required: true
  *       content:
