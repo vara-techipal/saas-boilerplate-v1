@@ -5,6 +5,39 @@ import prisma from '../prisma/client.js';
 
 const router = Router();
 
+/**
+ * @swagger
+ * /api/login:
+ *   post:
+ *     summary: Log in a user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Authentication successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *       401:
+ *         description: Invalid credentials
+ */
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -35,6 +68,32 @@ function slugify(str) {
     .replace(/[^a-z0-9-]/g, '');
 }
 
+/**
+ * @swagger
+ * /api/signup:
+ *   post:
+ *     summary: Create a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User created
+ *       400:
+ *         description: Invalid input
+ */
 router.post('/signup', async (req, res) => {
   const { email, password, name, company } = req.body;
   if (!email || !password || !company) {
@@ -68,7 +127,7 @@ router.post('/signup', async (req, res) => {
       expiresIn: '1h'
     });
 
-    res.json({ token });
+    res.status(201).json({ token });
   } catch (err) {
     if (err.code === 'P2002') {
       return res.status(400).json({ error: 'Email already exists' });
